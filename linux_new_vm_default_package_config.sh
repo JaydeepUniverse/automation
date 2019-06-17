@@ -29,7 +29,11 @@ yum install -y git
 git config --global user.email "ecjaydeepsoni@gmail.com"
 git config --global user.name "jaydeepuniverse"
 
-################ PYTHON and PIP INSTALLATION ##########################
+# PYTHON
+# PIP
+# IPYTHON
+# BOTO3 
+# INSTALLATION ##########################
 install_python3_in_centos()
 {
         yum install gcc openssl-devel bzip2-devel  libffi-devel -y
@@ -42,6 +46,7 @@ install_python3_in_centos()
         rm -f /usr/src/Python-3.7.0.tgz
         python3.7 -V
         pip3.7 install ipython
+	pip3.7 install boto3
 }
 
 install_python3_in_amazonec2()
@@ -55,6 +60,7 @@ install_python3_in_amazonec2()
         source ~/.bash_profile
         pip3 --version
         pip3 install ipython
+	pip3 install boto3
 }
 
 os_type=`head -n1 /etc/system-release`
