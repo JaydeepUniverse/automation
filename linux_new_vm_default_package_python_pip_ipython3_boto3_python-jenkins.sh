@@ -6,6 +6,8 @@ yum update -y
 # PIP
 # IPYTHON
 # BOTO3
+# PYTHON-JENKINS
+# JENKINS-KERBEROS
 # INSTALLATION ##########################
 install_python3_in_centos()
 {
@@ -25,18 +27,27 @@ install_python3_in_centos()
 
 install_python3_in_amazonec2()
 {
-        yum install python3 -y
-        python3 --version
+        yum install python3.x86_64 -y
+	yum install python3-debug.x86_64 -y		
+	yum install python3-devel.x86_64 -y
+	yum install python3-libs.i686 -y
+	yum install python3-libs.x86_64 -y
+	yum install python3-setuptools.noarch -y
+	yum install python3-wheel.noarch -y
+	yum install python3-tools.x86_64 -y
+	yum install krb5-devel.x86_64 -y
+        python3.7 --version
         cd /usr/src
         curl -O https://bootstrap.pypa.io/get-pip.py
-        python3 get-pip.py --user
+        python3.7 get-pip.py --user
         export PATH=~/.local/bin:$PATH
         source ~/.bash_profile
-        pip3 --version
-        pip3 install ipython
-        pip3 install boto3
-	pip3 install python-jenkins
-	yum groupinstall "Development Tools" -y
+        pip3.7 --version
+        pip3.7 install ipython
+        pip3.7 install boto3
+        pip3.7 install python-jenkins
+        yum groupinstall "Development Tools" -y
+	pip3.7 install kerberos
 }
 
 os_type=`head -n1 /etc/system-release`
