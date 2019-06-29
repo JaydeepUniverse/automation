@@ -20,7 +20,7 @@ install_python3_in_centos()
         python3.7 -V
         pip3.7 install ipython
         pip3.7 install boto3
-		pip3.7 install python-jenkins
+	pip3.7 install python-jenkins
 }
 
 install_python3_in_amazonec2()
@@ -35,7 +35,8 @@ install_python3_in_amazonec2()
         pip3 --version
         pip3 install ipython
         pip3 install boto3
-		pip3 install python-jenkins
+	pip3 install python-jenkins
+	yum groupinstall "Development Tools" -y
 }
 
 os_type=`head -n1 /etc/system-release`
