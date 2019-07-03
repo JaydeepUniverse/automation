@@ -11,7 +11,7 @@ install_docker_in_centos()
 	docker run hello-world
 }
 
-install_python3_in_amazonec2()
+install_docker_in_amazonec2()
 {
 	yum update -y
 	amazon-linux-extras install docker -y
@@ -23,10 +23,10 @@ install_python3_in_amazonec2()
 os_type=`head -n1 /etc/system-release`
 if [[ $os_type == "CentOS"* ]]; then
         echo "CentOS"
-        install_python3_in_centos
+        install_docker_in_centos
 elif [[ $os_type == "Amazon"* ]]; then
         echo "Amazon EC2"
-        install_python3_in_amazonec2
+        install_docker_in_amazonec2
 else
         echo "New OS Type"
 fi
