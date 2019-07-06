@@ -23,6 +23,7 @@ install_python3_in_centos()
         pip3.7 install ipython
         pip3.7 install boto3
 	pip3.7 install python-jenkins
+	pip3.7 install azure
 }
 
 install_python3_in_amazonec2()
@@ -48,6 +49,7 @@ install_python3_in_amazonec2()
         pip3.7 install python-jenkins
         yum groupinstall "Development Tools" -y
 	pip3.7 install kerberos
+	pip3.7 install azure
 }
 
 os_type=`head -n1 /etc/system-release`
