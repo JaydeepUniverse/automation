@@ -1,6 +1,7 @@
 #!/bin/bash
 
 yum update -y
+yum install -y python2-virtualenv
 
 ############### AZ CLI INSTALLATION ###########################
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
