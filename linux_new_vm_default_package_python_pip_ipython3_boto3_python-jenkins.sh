@@ -11,8 +11,8 @@ yum update -y
 # INSTALLATION ##########################
 install_python3_in_centos()
 {
-        yum install gcc openssl-devel bzip2-devel  libffi-devel -y
-        cd /usr/src
+        yum install gcc openssl-devel bzip2-devel libffi-devel zlib-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel expat-devel -y
+	cd /usr/src
         wget https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz
         tar xzf Python-3.7.0.tgz
         cd Python-3.7.0
