@@ -5,6 +5,7 @@ yum update -y
 # PYTHON
 # PIP
 # IPYTHON
+# AWS CLI
 # BOTO3
 # PYTHON-JENKINS
 # JENKINS-KERBEROS
@@ -21,6 +22,7 @@ install_python3_in_centos()
         rm -f /usr/src/Python-3.7.0.tgz
         python3.7 -V
         pip3.7 install ipython
+	pip3.7 install awscli --upgrade --user
         pip3.7 install boto3
 	pip3.7 install python-jenkins
 	pip3.7 install azure
@@ -45,6 +47,7 @@ install_python3_in_amazonec2()
         source ~/.bash_profile
         pip3.7 --version
         pip3.7 install ipython
+	pip3.7 install awscli --upgrade --user
         pip3.7 install boto3
         pip3.7 install python-jenkins
         yum groupinstall "Development Tools" -y
