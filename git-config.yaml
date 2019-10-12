@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Installing Halyard for spinnaker step-1
+      git_config:
+        name: user.email
+        scope: global
+        value: ecjaydeepsoni@gmail.com
+    - name: Installing Halyard for spinnaker step-2
+      git_config:
+        name: user.name
+        scope: global
+        value: JaydeepUniverse
