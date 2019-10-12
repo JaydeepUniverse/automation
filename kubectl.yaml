@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Installing Kubectl step-1
+      package:
+        name: apt-transport-https
+        state: present
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Installing Kubectl step-2
+      shell: sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Installing Kubectl step-3
+      command: sudo echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Installing Kubectl step-4
+      snap:
+        name: kubectl
+        classic: yes
+      when: ansible_facts['os_family'] == "Debian"

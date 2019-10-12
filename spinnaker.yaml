@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Installing Halyard for spinnaker step-1
+      command: sudo curl -o /tmp/InstallHalyard.sh https://raw.githubusercontent.com/spinnaker/halyard/master/install/debian/InstallHalyard.sh
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Installing Halyard for spinnaker step-2
+      file:
+        path: /tmp/InstallHalyard.sh
+        mode: +x
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Installing Halyard for spinnaker step-3
+      shell: /tmp/InstallHalyard.sh
+      when: ansible_facts['os_family'] == "Debian"
