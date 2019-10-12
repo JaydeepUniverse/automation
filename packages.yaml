@@ -1,0 +1,49 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Upgrade all packages to the latest version
+      apt:
+        name: "*"
+        state: latest
+    - name: Update all packages to the latest version
+      apt:
+        upgrade: dist
+    - name: Installing Apache2 package
+      package:
+        name: apache2
+        state: present
+    - name: Starting Apache2 service
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+    - name: Installing Kubectl step-1
+      package:
+        name: apt-transport-https
+        state: present
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Installing Kubectl step-2
+      shell: sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Installing Kubectl step-3
+      command: sudo echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Installing Kubectl step-4
+      snap:
+        name: kubectl
+        classic: yes
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Installing AZ cli
+      shell: sudo curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Installing Halyard for spinnaker step-1
+      command: sudo curl -o /tmp/InstallHalyard.sh https://raw.githubusercontent.com/spinnaker/halyard/master/install/debian/InstallHalyard.sh
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Installing Halyard for spinnaker step-2
+      file: 
+        path: /tmp/InstallHalyard.sh
+        mode: +x
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Installing Halyard for spinnaker step-3
+      shell: /tmp/InstallHalyard.sh
+      when: ansible_facts['os_family'] == "Debian"
