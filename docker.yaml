@@ -1,0 +1,53 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Upgrade all packages to the latest version
+      apt:
+        name: "*"
+        state: latest
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Update all packages to the latest version
+      apt:
+        upgrade: dist
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Installing docker step-1
+      package:
+        name: apt-transport-https
+        state: present
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Installing docker step-2
+      package:
+        name: ca-certificates
+        state: present
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Installing docker step-3
+      package:
+        name: curl
+        state: present
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Installing docker step-4
+      package:
+        name: gnupg-agent
+        state: present
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Installing docker step-5
+      shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add 
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Installing docker step-6
+      shell: add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Installing docker step-7
+      package:
+        name: docker-ce
+        state: present
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Installing docker step-8
+      package:
+        name: docker-ce-cli
+        state: present
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Installing docker step-9
+      package:
+        name: containerd.io
+        state: present
+      when: ansible_facts['os_family'] == "Debian"
