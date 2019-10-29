@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Upgrade all packages to the latest version
+      apt:
+        name: "*"
+        state: latest
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Update all packages to the latest version
+      apt:
+        upgrade: dist
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Installing bash-completion
+      package:
+        name: bash-completion
+        state: present
+      when: ansible_facts['os_family'] == "Debian"

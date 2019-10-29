@@ -17,3 +17,11 @@
         name: kubectl
         classic: yes
       when: ansible_facts['os_family'] == "Debian"
+    - name: Installing bash-completion
+      package:
+        name: bash-completion
+        state: present
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Configuring kubectl for bash-completion
+      command: echo "Run this command manually source <(kubectl completion bash)"
+      when: ansible_facts['os_family'] == "Debian"
