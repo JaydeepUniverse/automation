@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Downloading terraform package
+      get_url:
+        url: https://releases.hashicorp.com/terraform/0.12.13/terraform_0.12.13_linux_amd64.zip
+        dest: /tmp/terraform.zip
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Unzipping terraform package to /usr/local/bin/
+      unarchive:
+        src: /tmp/terraform.zip
+        dest: /usr/local/bin
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Confirming Installation
+      command: terraform -v
+      when: ansible_facts['os_family'] == "Debian"
