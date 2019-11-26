@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Downloading vault package
+      get_url:
+        url: https://releases.hashicorp.com/vault/1.2.4/vault_1.2.4_linux_amd64.zip
+        dest: /tmp/vault.zip
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Unzipping vault package to /usr/local/bin/
+      unarchive:
+        src: /tmp/vault.zip
+        dest: /usr/local/bin
+      when: ansible_facts['os_family'] == "Debian"
+    - name: Confirming Installation
+      command: vault -h
+      when: ansible_facts['os_family'] == "Debian"
