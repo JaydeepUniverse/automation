@@ -1,0 +1,25 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Installing Unzip package
+      package:
+        name: unzip
+        state: present
+      when: ansible_facts['os_family'] == "Debian"
+      become: true
+    - name: Create awscli directory in home directory
+      file:
+        path: ~/awscli
+        state: directory
+        mode: '0755'
+    - name: Download bundled installer zip file
+      get_url:
+        url: https://s3.amazonaws.com/aws-cli/awscli-bundle.zip
+        dest: ~/awscli/awscli-bundle.zip
+    - name: Extract zip file
+      unarchive:
+        src: ~/awscli/awscli-bundle.zip
+        dest: ~/awscli
+    - name: Run install command
+      shell: /home/ubuntu/awscli/awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+      become: true
