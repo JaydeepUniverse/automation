@@ -1,0 +1,30 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Check for latest version
+      pause:
+        prompt: "check latest versions to download from url https://github.com/helm/helm/releases before proceeding"
+    - name: Installing Unzip package
+      package:
+        name: unzip
+        state: present
+      when: ansible_facts['os_family'] == "Debian"
+      become: true
+    - name: Create helm-install directory in home directory
+      file:
+        path: ~/helm-install
+        state: directory
+        mode: '0755'
+    - name: Download zip file
+      get_url:
+        url: https://get.helm.sh/helm-v3.0.2-linux-amd64.tar.gz
+        dest: ~/helm-install/helm-v3.0.2-linux-amd64.tar.gz
+    - name: Extract zip file
+      unarchive:
+        src: ~/helm-install/helm-v3.0.2-linux-amd64.tar.gz
+        dest: ~/helm-install
+    - name: Run install command
+      shell: mv /home/ubuntu/helm-install/linux-amd64/helm /usr/local/bin/helm
+      become: true
+    - name: Add repository
+      shell: helm repo add stable https://kubernetes-charts.storage.googleapis.com/
