@@ -41,6 +41,10 @@
         path: /var/run/docker.sock
         mode: '776'
       become: true
+    - name: copy kubeconfig file to ~/.hal directory
+      copy:
+        src: ~/.kube/config
+        dest: ~/.hal
     - name: Start halyard in docker container
       docker_container:
         name: halyard
@@ -49,9 +53,10 @@
           - "9000:9000"
         volumes:
           - ~/.hal:/home/spinnaker/.hal
-          - ~/home/ubuntu/.kube:/home/spinnaker/.kube
         auto_remove: yes
         detach: yes
+        env:
+          KUBECONFIG: "/home/spinnaker/.hal/config"
         image: gcr.io/spinnaker-marketplace/halyard:stable
     - name: Revoking docker command permissions to users
       file:
