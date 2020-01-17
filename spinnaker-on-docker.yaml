@@ -1,0 +1,64 @@
+---
+- hosts: localhost
+  vars:
+    environment:
+    PYTHONPATH: "{{ lookup('env','PYTHONPATH') }}:/usr/local/lib/python2.7/dist-packages:/usr/local/lib/python2.7/site-packages"
+  tasks:
+    - name: Update all packages to the latest version
+      apt:
+        name: "*"
+        state: latest
+      when: ansible_facts['os_family'] == "Debian"
+      become: true
+    - name: Upgrade all packages to the latest version
+      apt:
+        upgrade: dist
+      when: ansible_facts['os_family'] == "Debian"
+      become: true
+    - name: Install python2 pip
+      package:
+        name: python-pip
+      when: ansible_facts['os_family'] == "Debian"
+      become: true
+    - name: Install python-requests module
+      apt:
+        name: python-requests
+        state: latest
+      when: ansible_facts['os_family'] == "Debian"
+      become: true
+    - name: Install python docker
+      apt:
+        name: python-docker
+        state: latest
+      when: ansible_facts['os_family'] == "Debian"
+      become: true
+    - name: Create hal directory in home directory
+      file:
+        path: ~/.hal
+        state: directory
+    - name: Give normal users to run docker command to ensure ~/.hal directory created by spinnaker userid not root
+      file:
+        path: /var/run/docker.sock
+        mode: '776'
+      become: true
+    - name: Start halyard in docker container
+      docker_container:
+        name: halyard
+        ports:
+          - "8084:8084"
+          - "9000:9000"
+        volumes:
+          - ~/.hal:/home/spinnaker/.hal
+          - ~/home/ubuntu/.kube:/home/spinnaker/.kube
+        auto_remove: yes
+        detach: yes
+        image: gcr.io/spinnaker-marketplace/halyard:stable
+    - name: Revoking docker command permissions to users
+      file:
+        path: /var/run/docker.sock
+        mode: '660'
+      become: true
+    - name: RUN THIS COMMAND - source <(hal --print-bash-completion) - INSIDE HALYARD CONTAINER AS PART OF SPINNAKER INSTALLATION FIRST STEP
+      command: echo RUN THIS COMMAND - source <(hal --print-bash-completion) - INSIDE HALYARD CONTAINER AS PART OF SPINNAKER INSTALLATION FIRST STEP
+      register: test
+    - debug: msg="{{ test.stdout }}"
