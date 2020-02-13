@@ -1,0 +1,15 @@
+---
+    - hosts: localhost
+      tasks:
+        - name: Download spinnaker cli package
+          shell: curl -LO https://storage.googleapis.com/spinnaker-artifacts/spin/$(curl -s https://storage.googleapis.com/spinnaker-artifacts/spin/latest)/linux/amd64/spin
+        - name: Change permission of spin cli file
+          file:
+            path: spin
+            mode: '0755'
+        - name: copy spin cli to bin directory to make executable
+          copy:
+            src: spin
+            dest: /usr/local/bin/spin
+            become: true
+    
