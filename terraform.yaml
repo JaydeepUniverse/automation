@@ -11,6 +11,9 @@
         src: /tmp/terraform.zip
         dest: /usr/local/bin
       when: ansible_facts['os_family'] == "Debian"
+      become: true
     - name: Confirming Installation
       command: terraform -v
       when: ansible_facts['os_family'] == "Debian"
+      register: test
+    - debug: msg="{{ test.stdout }}"
