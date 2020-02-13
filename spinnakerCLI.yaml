@@ -11,5 +11,5 @@
           copy:
             src: spin
             dest: /usr/local/bin/spin
-            become: true
+          become: true
     
