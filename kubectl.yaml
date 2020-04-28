@@ -23,5 +23,5 @@
         state: present
       when: ansible_facts['os_family'] == "Debian"
     - name: Configuring kubectl for bash-completion
-      command: echo "Run this command manually source <(kubectl completion bash)"
+      shell: echo 'source <(kubectl completion bash)' >>~/.bashrc
       when: ansible_facts['os_family'] == "Debian"
